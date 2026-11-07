@@ -11,6 +11,7 @@ import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
 
+// Describes the data of the form block.
 export type FormBlockType = {
   blockName?: string
   blockType?: 'formBlock'
@@ -19,6 +20,7 @@ export type FormBlockType = {
   introContent?: DefaultTypedEditorState
 }
 
+// Shows a form and sends it to the server.
 export const FormBlock: React.FC<
   {
     id?: string
@@ -46,9 +48,11 @@ export const FormBlock: React.FC<
   const [error, setError] = useState<{ message: string; status?: string } | undefined>()
   const router = useRouter()
 
+  // Sends the filled form to the server.
   const onSubmit = useCallback(
     (data: FormFieldBlock[]) => {
       let loadingTimerID: ReturnType<typeof setTimeout>
+      // Sends the answers and shows the result.
       const submitForm = async () => {
         setError(undefined)
 
@@ -78,6 +82,7 @@ export const FormBlock: React.FC<
 
           clearTimeout(loadingTimerID)
 
+          // Checks if status is at least 400.
           if (req.status >= 400) {
             setIsLoading(false)
 
@@ -86,17 +91,20 @@ export const FormBlock: React.FC<
               status: res.status,
             })
 
+            // Returns nothing after showing an error.
             return
           }
 
           setIsLoading(false)
           setHasSubmitted(true)
 
+          // Checks if confirmation type is redirect and redirect is set.
           if (confirmationType === 'redirect' && redirect) {
             const { url } = redirect
 
             const redirectUrl = url
 
+            // Checks if redirect url is set.
             if (redirectUrl) router.push(redirectUrl)
           }
         } catch (err) {
@@ -113,8 +121,9 @@ export const FormBlock: React.FC<
     [router, formID, redirect, confirmationType],
   )
 
+  // Returns the form section.
   return (
-    <div className="container lg:max-w-[48rem]">
+    <div className="container lg:max-w-3xl">
       {enableIntro && introContent && !hasSubmitted && (
         <RichText className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />
       )}
@@ -133,7 +142,9 @@ export const FormBlock: React.FC<
                   formFromProps.fields?.map((field, index) => {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const Field: React.FC<any> = fields?.[field.blockType as keyof typeof fields]
+                    // Checks if field is set.
                     if (Field) {
+                      // Returns the field wrapper.
                       return (
                         <div className="mb-6 last:mb-0" key={index}>
                           <Field
@@ -147,6 +158,7 @@ export const FormBlock: React.FC<
                         </div>
                       )
                     }
+                    // Returns nothing when the field type is unknown.
                     return null
                   })}
               </div>

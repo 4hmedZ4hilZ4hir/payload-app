@@ -4,6 +4,7 @@ import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 import { slugField } from 'payload'
 
+// Defines the Categories collection.
 export const Categories: CollectionConfig = {
   slug: 'categories',
   access: {

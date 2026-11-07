@@ -12,6 +12,7 @@ const defaultCollectionLabels = {
   },
 }
 
+// Shows which results are on the current page.
 export const PageRange: React.FC<{
   className?: string
   collection?: keyof typeof defaultCollectionLabels
@@ -33,9 +34,11 @@ export const PageRange: React.FC<{
   } = props
 
   let indexStart = (currentPage ? currentPage - 1 : 1) * (limit || 1) + 1
+  // Checks if total docs is set and index start is more than total docs.
   if (totalDocs && indexStart > totalDocs) indexStart = 0
 
   let indexEnd = (currentPage || 1) * (limit || 1)
+  // Checks if total docs is set and index end is more than total docs.
   if (totalDocs && indexEnd > totalDocs) indexEnd = totalDocs
 
   const { plural, singular } =
@@ -44,6 +47,7 @@ export const PageRange: React.FC<{
     defaultLabels ||
     {}
 
+  // Returns the text with the result range.
   return (
     <div className={[className, 'font-semibold'].filter(Boolean).join(' ')}>
       {(typeof totalDocs === 'undefined' || totalDocs === 0) && 'Search produced no results.'}

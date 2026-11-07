@@ -8,9 +8,12 @@ import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
 
+// Makes the posts page static.
 export const dynamic = 'force-static'
+// Sets how often the posts page is rebuilt, in seconds.
 export const revalidate = 600
 
+// Renders the list of posts.
 export default async function Page() {
   const payload = await getPayload({ config: configPromise })
 
@@ -27,6 +30,7 @@ export default async function Page() {
     },
   })
 
+  // Returns the posts page with its list and pagination.
   return (
     <div className="pt-24 pb-24">
       <PageClient />
@@ -56,7 +60,9 @@ export default async function Page() {
   )
 }
 
+// Builds the posts page metadata.
 export function generateMetadata(): Metadata {
+  // Returns the title of the posts page.
   return {
     title: `Payload Website Template Posts`,
   }

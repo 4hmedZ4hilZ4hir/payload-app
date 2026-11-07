@@ -10,6 +10,7 @@ import React from 'react'
 import { Error } from '../Error'
 import { Width } from '../Width'
 
+// Shows a checkbox field.
 export const Checkbox: React.FC<
   CheckboxField & {
     errors: Partial<FieldErrorsImpl>
@@ -19,6 +20,7 @@ export const Checkbox: React.FC<
   const props = register(name, { required: required })
   const { setValue } = useFormContext()
 
+  // Returns the checkbox field.
   return (
     <Width width={width}>
       <div className="flex items-center gap-2">

@@ -9,6 +9,7 @@ import React from 'react'
 import PageClient from './page.client'
 import { notFound } from 'next/navigation'
 
+// Sets how often the page is rebuilt, in seconds.
 export const revalidate = 600
 
 type Args = {
@@ -17,12 +18,14 @@ type Args = {
   }>
 }
 
+// Renders one page of the posts list.
 export default async function Page({ params: paramsPromise }: Args) {
   const { pageNumber } = await paramsPromise
   const payload = await getPayload({ config: configPromise })
 
   const sanitizedPageNumber = Number(pageNumber)
 
+  // Checks if sanitized page number is not a whole number.
   if (!Number.isInteger(sanitizedPageNumber)) notFound()
 
   const posts = await payload.find({
@@ -33,6 +36,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     overrideAccess: false,
   })
 
+  // Returns the posts page with its list and pagination.
   return (
     <div className="pt-24 pb-24">
       <PageClient />
@@ -62,13 +66,16 @@ export default async function Page({ params: paramsPromise }: Args) {
   )
 }
 
+// Builds the metadata for this posts page.
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { pageNumber } = await paramsPromise
+  // Returns the title with the page number.
   return {
     title: `Payload Website Template Posts Page ${pageNumber || ''}`,
   }
 }
 
+// Lists the page numbers to build ahead of time.
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const { totalDocs } = await payload.count({
@@ -84,5 +91,6 @@ export async function generateStaticParams() {
     pages.push({ pageNumber: String(i) })
   }
 
+  // Returns the list of page numbers.
   return pages
 }

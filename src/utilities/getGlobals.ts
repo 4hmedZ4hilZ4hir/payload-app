@@ -6,6 +6,7 @@ import { unstable_cache } from 'next/cache'
 
 type Global = keyof Config['globals']
 
+// Loads a global by its slug.
 async function getGlobal<T extends Global>(slug: T, depth = 0): Promise<DataFromGlobalSlug<T>> {
   const payload = await getPayload({ config: configPromise })
 
@@ -14,6 +15,7 @@ async function getGlobal<T extends Global>(slug: T, depth = 0): Promise<DataFrom
     depth,
   })
 
+  // Returns the global.
   return global
 }
 

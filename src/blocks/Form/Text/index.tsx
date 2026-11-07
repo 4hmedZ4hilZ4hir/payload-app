@@ -8,12 +8,14 @@ import React from 'react'
 import { Error } from '../Error'
 import { Width } from '../Width'
 
+// Shows a text field.
 export const Text: React.FC<
   TextField & {
     errors: Partial<FieldErrorsImpl>
     register: UseFormRegister<FieldValues>
   }
 > = ({ name, defaultValue, errors, label, register, required, width }) => {
+  // Returns the text field.
   return (
     <Width width={width}>
       <Label htmlFor={name}>

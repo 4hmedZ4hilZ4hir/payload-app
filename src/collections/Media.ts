@@ -14,6 +14,7 @@ import { authenticated } from '../access/authenticated'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// Defines the Media collection.
 export const Media: CollectionConfig = {
   slug: 'media',
   folders: true,
@@ -34,6 +35,7 @@ export const Media: CollectionConfig = {
       type: 'richText',
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
+          // Returns the editor features with the toolbars added.
           return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
         },
       }),

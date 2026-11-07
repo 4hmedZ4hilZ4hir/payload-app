@@ -277,18 +277,21 @@ export const seed = async ({
   payload.logger.info('Seeded database successfully!')
 }
 
+// Downloads a file from a web address.
 async function fetchFileByURL(url: string): Promise<File> {
   const res = await fetch(url, {
     credentials: 'include',
     method: 'GET',
   })
 
+  // Checks if ok is missing.
   if (!res.ok) {
     throw new Error(`Failed to fetch file from ${url}, status: ${res.status}`)
   }
 
   const data = await res.arrayBuffer()
 
+  // Returns the downloaded file details.
   return {
     name: url.split('/').pop() || `file-${Date.now()}`,
     data: Buffer.from(data),

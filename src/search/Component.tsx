@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react'
 import { useDebounce } from '@/utilities/useDebounce'
 import { useRouter } from 'next/navigation'
 
+// Shows a search box that updates the search page.
 export const Search: React.FC = () => {
   const [value, setValue] = useState('')
   const router = useRouter()
@@ -15,6 +16,7 @@ export const Search: React.FC = () => {
     router.push(`/search${debouncedValue ? `?q=${debouncedValue}` : ''}`)
   }, [debouncedValue, router])
 
+  // Returns the search form.
   return (
     <div>
       <form

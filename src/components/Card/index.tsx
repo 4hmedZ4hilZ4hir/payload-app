@@ -8,8 +8,10 @@ import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 
+// Describes the post data a card needs.
 export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title'>
 
+// Renders a clickable post card.
 export const Card: React.FC<{
   alignItems?: 'center'
   className?: string
@@ -29,6 +31,7 @@ export const Card: React.FC<{
   const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
   const href = `/${relationTo}/${slug}`
 
+  // Returns the post card.
   return (
     <article
       className={cn(
@@ -45,6 +48,7 @@ export const Card: React.FC<{
         {showCategories && hasCategories && (
           <div className="uppercase text-sm mb-4">
             {categories?.map((category, index) => {
+              // Checks if category is an object.
               if (typeof category === 'object') {
                 const { title: titleFromCategory } = category
 
@@ -52,6 +56,7 @@ export const Card: React.FC<{
 
                 const isLast = index === categories.length - 1
 
+                // Returns the category name with a comma when needed.
                 return (
                   <Fragment key={index}>
                     {categoryTitle}
@@ -60,6 +65,7 @@ export const Card: React.FC<{
                 )
               }
 
+              // Returns nothing when the category is not an object.
               return null
             })}
           </div>

@@ -1,5 +1,6 @@
 import type { Block } from 'payload'
 
+// Defines the Code block.
 export const Code: Block = {
   slug: 'code',
   interfaceName: 'CodeBlock',

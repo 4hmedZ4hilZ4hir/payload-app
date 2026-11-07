@@ -7,6 +7,7 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
+// Defines the Form block.
 export const FormBlock: Block = {
   slug: 'formBlock',
   interfaceName: 'FormBlock',
@@ -30,6 +31,7 @@ export const FormBlock: Block = {
       },
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
+          // Returns the editor features with headings and toolbars.
           return [
             ...rootFeatures,
             HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),

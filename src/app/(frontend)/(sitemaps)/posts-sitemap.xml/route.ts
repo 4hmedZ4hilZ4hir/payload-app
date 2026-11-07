@@ -3,7 +3,9 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 
+// Gets the cached sitemap entries for published posts.
 const getPostsSitemap = unstable_cache(
+  // Builds the list of sitemap entries for posts.
   async () => {
     const payload = await getPayload({ config })
     const SITE_URL =
@@ -40,6 +42,7 @@ const getPostsSitemap = unstable_cache(
           }))
       : []
 
+    // Returns the list of post sitemap entries.
     return sitemap
   },
   ['posts-sitemap'],
@@ -48,8 +51,10 @@ const getPostsSitemap = unstable_cache(
   },
 )
 
+// Responds with the posts sitemap.
 export async function GET() {
   const sitemap = await getPostsSitemap()
 
+  // Returns the posts sitemap response.
   return getServerSideSitemap(sitemap)
 }

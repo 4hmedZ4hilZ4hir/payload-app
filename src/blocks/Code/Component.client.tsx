@@ -8,9 +8,12 @@ type Props = {
   language?: string
 }
 
+// Shows code with colors and line numbers.
 export const Code: React.FC<Props> = ({ code, language = '' }) => {
+  // Returns nothing when there is no code.
   if (!code) return null
 
+  // Returns the highlighted code box.
   return (
     <Highlight code={code} language={language} theme={themes.vsDark}>
       {({ getLineProps, getTokenProps, tokens }) => (

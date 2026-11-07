@@ -2,8 +2,10 @@ import type { Field, GroupField } from 'payload'
 
 import deepMerge from '@/utilities/deepMerge'
 
+// Lists the looks a link can have.
 export type LinkAppearances = 'default' | 'outline'
 
+// Defines the choices for the link look.
 export const appearanceOptions: Record<LinkAppearances, { label: string; value: string }> = {
   default: {
     label: 'Default',
@@ -21,6 +23,7 @@ type LinkType = (options?: {
   overrides?: Partial<GroupField>
 }) => Field
 
+// Builds the link field.
 export const link: LinkType = ({ appearances, disableLabel = false, overrides = {} } = {}) => {
   const linkResult: GroupField = {
     name: 'link',
@@ -89,6 +92,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
     },
   ]
 
+  // Checks if disable label is missing.
   if (!disableLabel) {
     linkTypes.map((linkType) => ({
       ...linkType,
@@ -117,9 +121,11 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
     linkResult.fields = [...linkResult.fields, ...linkTypes]
   }
 
+  // Checks if appearances is not false.
   if (appearances !== false) {
     let appearanceOptionsToUse = [appearanceOptions.default, appearanceOptions.outline]
 
+    // Checks if appearances is set.
     if (appearances) {
       appearanceOptionsToUse = appearances.map((appearance) => appearanceOptions[appearance])
     }
@@ -135,5 +141,6 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
     })
   }
 
+  // Returns the link field with the overrides applied.
   return deepMerge(linkResult, overrides)
 }

@@ -1,6 +1,8 @@
 import React from 'react'
 
+// Renders the welcome text on the login page.
 const BeforeLogin: React.FC = () => {
+  // Returns the login welcome message.
   return (
     <div>
       <p>
@@ -11,4 +13,5 @@ const BeforeLogin: React.FC = () => {
   )
 }
 
+// Exports the login welcome component.
 export default BeforeLogin

@@ -13,6 +13,7 @@ type Args = {
     q: string
   }>
 }
+// Renders the search page with its results.
 export default async function Page({ searchParams: searchParamsPromise }: Args) {
   const { q: query } = await searchParamsPromise
   const payload = await getPayload({ config: configPromise })
@@ -59,6 +60,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       : {}),
   })
 
+  // Returns the search page with the results or a no results message.
   return (
     <div className="pt-24 pb-24">
       <PageClient />
@@ -66,7 +68,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
         <div className="prose dark:prose-invert max-w-none text-center">
           <h1 className="mb-8 lg:mb-16">Search</h1>
 
-          <div className="max-w-[50rem] mx-auto">
+          <div className="max-w-200 mx-auto">
             <Search />
           </div>
         </div>
@@ -81,7 +83,9 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   )
 }
 
+// Builds the search page metadata.
 export function generateMetadata(): Metadata {
+  // Returns the title of the search page.
   return {
     title: `Payload Website Template Search`,
   }

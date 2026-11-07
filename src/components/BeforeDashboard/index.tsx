@@ -6,7 +6,9 @@ import './index.scss'
 
 const baseClass = 'before-dashboard'
 
+// Renders the welcome text on the admin dashboard.
 const BeforeDashboard: React.FC = () => {
+  // Returns the dashboard welcome section.
   return (
     <div className={baseClass}>
       <Banner className={`${baseClass}__banner`} type="success">
@@ -66,4 +68,5 @@ const BeforeDashboard: React.FC = () => {
   )
 }
 
+// Exports the dashboard welcome component.
 export default BeforeDashboard

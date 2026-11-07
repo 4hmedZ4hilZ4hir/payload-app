@@ -20,6 +20,7 @@ type CMSLinkType = {
   url?: string | null
 }
 
+// Renders a link or a button link from CMS data.
 export const CMSLink: React.FC<CMSLinkType> = (props) => {
   const {
     type,
@@ -40,6 +41,7 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
         }`
       : url
 
+  // Returns nothing when there is no link address.
   if (!href) return null
 
   const size = appearance === 'link' ? 'clear' : sizeFromProps
@@ -47,6 +49,7 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
 
   /* Ensure we don't break any styles set by richText */
   if (appearance === 'inline') {
+    // Returns a plain link.
     return (
       <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
         {label && label}
@@ -55,6 +58,7 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     )
   }
 
+  // Returns the link inside a button.
   return (
     <Button asChild className={className} size={size} variant={appearance}>
       <Link className={cn(className)} href={href || url || ''} {...newTabProps}>

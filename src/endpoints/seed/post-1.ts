@@ -1,17 +1,20 @@
 import type { Media, User } from '@/payload-types'
 import { RequiredDataFromCollectionSlug } from 'payload'
 
+// Describes the values needed to build the first post.
 export type PostArgs = {
   heroImage: Media
   blockImage: Media
   author: User
 }
 
+// Builds the seed data for the first post.
 export const post1: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> = ({
   heroImage,
   blockImage,
   author,
 }) => {
+  // Returns the first post data.
   return {
     slug: 'digital-horizons',
     _status: 'published',

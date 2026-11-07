@@ -4,12 +4,15 @@ import { revalidatePath, revalidateTag } from 'next/cache'
 
 import type { Post } from '../../../payload-types'
 
+// Refreshes the cached post after it changes.
 export const revalidatePost: CollectionAfterChangeHook<Post> = ({
   doc,
   previousDoc,
   req: { payload, context },
 }) => {
+  // Checks if revalidate is not turned off.
   if (!context.disableRevalidate) {
+    // Checks if status is published.
     if (doc._status === 'published') {
       const path = `/posts/${doc.slug}`
 
@@ -29,10 +32,13 @@ export const revalidatePost: CollectionAfterChangeHook<Post> = ({
       revalidateTag('posts-sitemap', 'max')
     }
   }
+  // Returns the changed post.
   return doc
 }
 
+// Refreshes the cached post after it is deleted.
 export const revalidateDelete: CollectionAfterDeleteHook<Post> = ({ doc, req: { context } }) => {
+  // Checks if revalidate is not turned off.
   if (!context.disableRevalidate) {
     const path = `/posts/${doc?.slug}`
 
@@ -40,5 +46,6 @@ export const revalidateDelete: CollectionAfterDeleteHook<Post> = ({ doc, req: { 
     revalidateTag('posts-sitemap', 'max')
   }
 
+  // Returns the deleted post.
   return doc
 }

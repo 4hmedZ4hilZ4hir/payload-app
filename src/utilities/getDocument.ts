@@ -6,6 +6,7 @@ import { unstable_cache } from 'next/cache'
 
 type Collection = keyof Config['collections']
 
+// Finds one document by its slug.
 async function getDocument(collection: Collection, slug: string, depth = 0) {
   const payload = await getPayload({ config: configPromise })
 
@@ -19,6 +20,7 @@ async function getDocument(collection: Collection, slug: string, depth = 0) {
     },
   })
 
+  // Returns the first matching document.
   return page.docs[0]
 }
 

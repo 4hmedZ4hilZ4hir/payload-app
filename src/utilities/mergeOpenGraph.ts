@@ -13,7 +13,9 @@ const defaultOpenGraph: Metadata['openGraph'] = {
   title: 'Payload Website Template',
 }
 
+// Combines the given sharing details with the defaults.
 export const mergeOpenGraph = (og?: Metadata['openGraph']): Metadata['openGraph'] => {
+  // Returns the combined sharing details.
   return {
     ...defaultOpenGraph,
     ...og,

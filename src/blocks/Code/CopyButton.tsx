@@ -3,10 +3,13 @@ import { Button } from '@/components/ui/button'
 import { CopyIcon } from '@payloadcms/ui/icons/Copy'
 import { useState } from 'react'
 
+// Shows a button that copies the code.
 export function CopyButton({ code }: { code: string }) {
   const [text, setText] = useState('Copy')
 
+  // Changes the button text to Copied for a moment.
   function updateCopyStatus() {
+    // Checks if text is Copy.
     if (text === 'Copy') {
       setText(() => 'Copied!')
       setTimeout(() => {
@@ -15,6 +18,7 @@ export function CopyButton({ code }: { code: string }) {
     }
   }
 
+  // Returns the copy button.
   return (
     <div className="flex justify-end align-middle">
       <Button

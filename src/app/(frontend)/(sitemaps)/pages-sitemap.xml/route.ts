@@ -3,7 +3,9 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 
+// Gets the cached sitemap entries for published pages.
 const getPagesSitemap = unstable_cache(
+  // Builds the list of sitemap entries for pages.
   async () => {
     const payload = await getPayload({ config })
     const SITE_URL =
@@ -46,6 +48,7 @@ const getPagesSitemap = unstable_cache(
       ? results.docs
           .filter((page) => Boolean(page?.slug))
           .map((page) => {
+            // Returns the sitemap entry for one page.
             return {
               loc: page?.slug === 'home' ? `${SITE_URL}/` : `${SITE_URL}/${page?.slug}`,
               lastmod: page.updatedAt || dateFallback,
@@ -53,6 +56,7 @@ const getPagesSitemap = unstable_cache(
           })
       : []
 
+    // Returns the default entries followed by the page entries.
     return [...defaultSitemap, ...sitemap]
   },
   ['pages-sitemap'],
@@ -61,8 +65,10 @@ const getPagesSitemap = unstable_cache(
   },
 )
 
+// Responds with the pages sitemap.
 export async function GET() {
   const sitemap = await getPagesSitemap()
 
+  // Returns the pages sitemap response.
   return getServerSideSitemap(sitemap)
 }

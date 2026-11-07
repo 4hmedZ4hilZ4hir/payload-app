@@ -1,5 +1,6 @@
 import type { Media } from '@/payload-types'
 
+// Defines the seed data for the second image.
 export const image2: Omit<Media, 'createdAt' | 'id' | 'updatedAt'> = {
   alt: 'Curving abstract shapes with an orange and blue gradient',
   caption: {

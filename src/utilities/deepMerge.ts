@@ -7,6 +7,7 @@
  * @returns {boolean}
  */
 export function isObject(item: unknown): item is object {
+  // Returns whether the item is a plain object.
   return typeof item === 'object' && !Array.isArray(item)
 }
 
@@ -17,9 +18,12 @@ export function isObject(item: unknown): item is object {
  */
 export default function deepMerge<T, R>(target: T, source: R): T {
   const output = { ...target }
+  // Checks if target is object and source is object.
   if (isObject(target) && isObject(source)) {
     Object.keys(source).forEach((key) => {
+      // Checks if source is object.
       if (isObject(source[key])) {
+        // Checks if not (key is in target).
         if (!(key in target)) {
           Object.assign(output, { [key]: source[key] })
         } else {
@@ -31,5 +35,6 @@ export default function deepMerge<T, R>(target: T, source: R): T {
     })
   }
 
+  // Returns the merged object.
   return output
 }

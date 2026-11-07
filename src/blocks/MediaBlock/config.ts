@@ -1,5 +1,6 @@
 import type { Block } from 'payload'
 
+// Defines the Media block.
 export const MediaBlock: Block = {
   slug: 'mediaBlock',
   interfaceName: 'MediaBlock',

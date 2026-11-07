@@ -15,12 +15,14 @@ import { Controller } from 'react-hook-form'
 import { Error } from '../Error'
 import { Width } from '../Width'
 
+// Shows a dropdown field.
 export const Select: React.FC<
   SelectField & {
     control: Control
     errors: Partial<FieldErrorsImpl>
   }
 > = ({ name, control, errors, label, options, required, width, defaultValue }) => {
+  // Returns the dropdown field.
   return (
     <Width width={width}>
       <Label htmlFor={name}>
@@ -38,6 +40,7 @@ export const Select: React.FC<
         render={({ field: { onChange, value } }) => {
           const controlledValue = options.find((t) => t.value === value)
 
+          // Returns the dropdown.
           return (
             <SelectComponent onValueChange={(val) => onChange(val)} value={controlledValue?.value}>
               <SelectTrigger className="w-full" id={name}>
@@ -45,6 +48,7 @@ export const Select: React.FC<
               </SelectTrigger>
               <SelectContent>
                 {options.map(({ label, value }) => {
+                  // Returns one dropdown item.
                   return (
                     <SelectItem key={value} value={value}>
                       {label}

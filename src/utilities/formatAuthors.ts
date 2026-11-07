@@ -16,9 +16,13 @@ export const formatAuthors = (
   // Ensure we don't have any authors without a name
   const authorNames = authors.map((author) => author.name).filter(Boolean)
 
+  // Returns an empty text when there are no authors.
   if (authorNames.length === 0) return ''
+  // Returns the name when there is one author.
   if (authorNames.length === 1) return authorNames[0]
+  // Returns the two names joined with "and".
   if (authorNames.length === 2) return `${authorNames[0]} and ${authorNames[1]}`
 
+  // Returns the names as a list ending with "and".
   return `${authorNames.slice(0, -1).join(', ')} and ${authorNames[authorNames.length - 1]}`
 }

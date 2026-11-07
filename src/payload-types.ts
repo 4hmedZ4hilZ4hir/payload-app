@@ -72,6 +72,8 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    'custom-forms': CustomForm;
+    'custom-submissions': CustomSubmission;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -94,6 +96,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'custom-forms': CustomFormsSelect<false> | CustomFormsSelect<true>;
+    'custom-submissions': CustomSubmissionsSelect<false> | CustomSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -159,7 +163,41 @@ export interface Page {
   id: string;
   title: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
+    type: 'none' | 'hero' | 'altHero' | 'highImpact' | 'mediumImpact' | 'lowImpact';
+    /**
+     * Alt Hero: this is the big name in the middle.
+     */
+    title?: string | null;
+    /**
+     * Alt Hero: upload a transparent PNG cut-out of the person so the head overlaps the frame.
+     */
+    image?: (string | null) | Media;
+    portraitStyle?: ('fill' | 'cutout') | null;
+    description?: string | null;
+    servicesTitle?: string | null;
+    services?:
+      | {
+          /**
+           * Small square icon (SVG or PNG).
+           */
+          icon?: (string | null) | Media;
+          name: string;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    aboutHeading?: string | null;
+    /**
+     * Leave a blank line between paragraphs.
+     */
+    aboutText?: string | null;
+    stats?:
+      | {
+          value: string;
+          label: string;
+          id?: string | null;
+        }[]
+      | null;
     richText?: {
       root: {
         type: string;
@@ -201,7 +239,19 @@ export interface Page {
       | null;
     media?: (string | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  layout: (
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+    | FeatureSplitBlock
+    | FeatureCardsBlock
+    | FaqListBlock
+    | FeatureCarouselBlock
+    | NewsBlock
+    | CustomFormBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -211,56 +261,6 @@ export interface Page {
     description?: string | null;
   };
   publishedAt?: string | null;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
-  slug: string;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: string;
-  title: string;
-  heroImage?: (string | null) | Media;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  relatedPosts?: (string | Post)[] | null;
-  categories?: (string | Category)[] | null;
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-    description?: string | null;
-  };
-  publishedAt?: string | null;
-  authors?: (string | User)[] | null;
-  populatedAuthors?:
-    | {
-        id?: string | null;
-        name?: string | null;
-      }[]
-    | null;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
@@ -391,6 +391,56 @@ export interface FolderInterface {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: string;
+  title: string;
+  heroImage?: (string | null) | Media;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  relatedPosts?: (string | Post)[] | null;
+  categories?: (string | Category)[] | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  authors?: (string | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
 export interface Category {
@@ -427,6 +477,7 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
+  resetPasswordRequestedAt?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
   sessions?:
@@ -724,9 +775,6 @@ export interface Form {
       )[]
     | null;
   submitButtonLabel?: string | null;
-  /**
-   * Choose whether to display an on-page message or redirect to a different page after they submit the form.
-   */
   confirmationType?: ('message' | 'redirect') | null;
   confirmationMessage?: {
     root: {
@@ -746,9 +794,6 @@ export interface Form {
   redirect?: {
     url: string;
   };
-  /**
-   * Send custom emails when the form submits. Use comma separated lists to send the same email to multiple recipients. To reference a value from this form, wrap that field's name with double curly brackets, i.e. {{firstName}}. You can use a wildcard {{*}} to output all data and {{*:table}} to format it as an HTML table in the email.
-   */
   emails?:
     | {
         emailTo?: string | null;
@@ -757,9 +802,6 @@ export interface Form {
         replyTo?: string | null;
         emailFrom?: string | null;
         subject: string;
-        /**
-         * Enter the message that should be sent in this email.
-         */
         message?: {
           root: {
             type: string;
@@ -775,6 +817,336 @@ export interface Form {
           };
           [k: string]: unknown;
         } | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureSplitBlock".
+ */
+export interface FeatureSplitBlock {
+  image: string | Media;
+  imagePosition?: ('left' | 'right') | null;
+  title: string;
+  description?: string | null;
+  /**
+   * First button: use "Default" (dark). Second: use "Outline" (white).
+   */
+  links?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: string | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+          /**
+           * Choose how the link should be rendered.
+           */
+          appearance?: ('default' | 'outline') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featureSplit';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureCardsBlock".
+ */
+export interface FeatureCardsBlock {
+  /**
+   * Design uses 3 cards: Dark text card, Image card, Stat + chart card.
+   */
+  cards?:
+    | {
+        cardType: 'highlight' | 'image' | 'stat';
+        badge?: string | null;
+        footnote?: string | null;
+        text?: string | null;
+        image?: (string | null) | Media;
+        tag?: string | null;
+        enableLink?: boolean | null;
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: string | Post;
+              } | null);
+          url?: string | null;
+        };
+        value?: string | null;
+        caption?: string | null;
+        bars?:
+          | {
+              label: string;
+              value: number;
+              highlight?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featureCards';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqListBlock".
+ */
+export interface FaqListBlock {
+  label?: string | null;
+  heading: string;
+  enableLink?: boolean | null;
+  link?: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: string | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: string | Post;
+        } | null);
+    url?: string | null;
+    label: string;
+  };
+  items?:
+    | {
+        image?: (string | null) | Media;
+        title: string;
+        description?: string | null;
+        enableLink?: boolean | null;
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: string | Post;
+              } | null);
+          url?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faqList';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureCarouselBlock".
+ */
+export interface FeatureCarouselBlock {
+  heading: string;
+  description?: string | null;
+  cards?:
+    | {
+        style: 'light' | 'image';
+        tag?: string | null;
+        title: string;
+        /**
+         * Background photo of the image card.
+         */
+        image?: (string | null) | Media;
+        avatars?:
+          | {
+              image: string | Media;
+              id?: string | null;
+            }[]
+          | null;
+        enableLink?: boolean | null;
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: string | Post;
+              } | null);
+          url?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  testimonials?:
+    | {
+        image: string | Media;
+        name: string;
+        role?: string | null;
+        location?: string | null;
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featureCarousel';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewsBlock".
+ */
+export interface NewsBlock {
+  sectionTitle?: string | null;
+  featured: {
+    image: string | Media;
+    category?: string | null;
+    views?: string | null;
+    comments?: string | null;
+    shares?: string | null;
+    title: string;
+    authors?:
+      | {
+          name: string;
+          id?: string | null;
+        }[]
+      | null;
+    dateLine?: string | null;
+    saveLabel?: string | null;
+    shareLabel?: string | null;
+    body?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  relatedTitle?: string | null;
+  enableLink?: boolean | null;
+  link?: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: string | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: string | Post;
+        } | null);
+    url?: string | null;
+    label: string;
+  };
+  related?:
+    | {
+        image?: (string | null) | Media;
+        category?: string | null;
+        views?: string | null;
+        title: string;
+        enableLink?: boolean | null;
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: string | Post;
+              } | null);
+          url?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'newsBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CustomFormBlock".
+ */
+export interface CustomFormBlock {
+  form: string | CustomForm;
+  heading?: string | null;
+  description?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'customForm';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "custom-forms".
+ */
+export interface CustomForm {
+  id: string;
+  title: string;
+  inputs: {
+    label: string;
+    inputType: 'text' | 'email' | 'phone' | 'number' | 'textarea' | 'date' | 'select' | 'radio' | 'checkbox';
+    placeholder?: string | null;
+    options?:
+      | {
+          label: string;
+          id?: string | null;
+        }[]
+      | null;
+    required?: boolean | null;
+    id?: string | null;
+  }[];
+  submitLabel?: string | null;
+  successMessage?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "custom-submissions".
+ */
+export interface CustomSubmission {
+  id: string;
+  form: string | CustomForm;
+  formTitle: string;
+  answers?:
+    | {
+        label: string;
+        value?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -992,6 +1364,14 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
+        relationTo: 'custom-forms';
+        value: string | CustomForm;
+      } | null)
+    | ({
+        relationTo: 'custom-submissions';
+        value: string | CustomSubmission;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: string | Redirect;
       } | null)
@@ -1063,6 +1443,28 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         type?: T;
+        title?: T;
+        image?: T;
+        portraitStyle?: T;
+        description?: T;
+        servicesTitle?: T;
+        services?:
+          | T
+          | {
+              icon?: T;
+              name?: T;
+              description?: T;
+              id?: T;
+            };
+        aboutHeading?: T;
+        aboutText?: T;
+        stats?:
+          | T
+          | {
+              value?: T;
+              label?: T;
+              id?: T;
+            };
         richText?: T;
         links?:
           | T
@@ -1089,6 +1491,12 @@ export interface PagesSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+        featureSplit?: T | FeatureSplitBlockSelect<T>;
+        featureCards?: T | FeatureCardsBlockSelect<T>;
+        faqList?: T | FaqListBlockSelect<T>;
+        featureCarousel?: T | FeatureCarouselBlockSelect<T>;
+        newsBlock?: T | NewsBlockSelect<T>;
+        customForm?: T | CustomFormBlockSelect<T>;
       };
   meta?:
     | T
@@ -1185,6 +1593,221 @@ export interface FormBlockSelect<T extends boolean = true> {
   form?: T;
   enableIntro?: T;
   introContent?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureSplitBlock_select".
+ */
+export interface FeatureSplitBlockSelect<T extends boolean = true> {
+  image?: T;
+  imagePosition?: T;
+  title?: T;
+  description?: T;
+  links?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureCardsBlock_select".
+ */
+export interface FeatureCardsBlockSelect<T extends boolean = true> {
+  cards?:
+    | T
+    | {
+        cardType?: T;
+        badge?: T;
+        footnote?: T;
+        text?: T;
+        image?: T;
+        tag?: T;
+        enableLink?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+            };
+        value?: T;
+        caption?: T;
+        bars?:
+          | T
+          | {
+              label?: T;
+              value?: T;
+              highlight?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqListBlock_select".
+ */
+export interface FaqListBlockSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  enableLink?: T;
+  link?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  items?:
+    | T
+    | {
+        image?: T;
+        title?: T;
+        description?: T;
+        enableLink?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureCarouselBlock_select".
+ */
+export interface FeatureCarouselBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  cards?:
+    | T
+    | {
+        style?: T;
+        tag?: T;
+        title?: T;
+        image?: T;
+        avatars?:
+          | T
+          | {
+              image?: T;
+              id?: T;
+            };
+        enableLink?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+            };
+        id?: T;
+      };
+  testimonials?:
+    | T
+    | {
+        image?: T;
+        name?: T;
+        role?: T;
+        location?: T;
+        tag?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewsBlock_select".
+ */
+export interface NewsBlockSelect<T extends boolean = true> {
+  sectionTitle?: T;
+  featured?:
+    | T
+    | {
+        image?: T;
+        category?: T;
+        views?: T;
+        comments?: T;
+        shares?: T;
+        title?: T;
+        authors?:
+          | T
+          | {
+              name?: T;
+              id?: T;
+            };
+        dateLine?: T;
+        saveLabel?: T;
+        shareLabel?: T;
+        body?: T;
+      };
+  relatedTitle?: T;
+  enableLink?: T;
+  link?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  related?:
+    | T
+    | {
+        image?: T;
+        category?: T;
+        views?: T;
+        title?: T;
+        enableLink?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CustomFormBlock_select".
+ */
+export interface CustomFormBlockSelect<T extends boolean = true> {
+  form?: T;
+  heading?: T;
+  description?: T;
   id?: T;
   blockName?: T;
 }
@@ -1346,6 +1969,7 @@ export interface UsersSelect<T extends boolean = true> {
   resetPasswordExpiration?: T;
   salt?: T;
   hash?: T;
+  resetPasswordRequestedAt?: T;
   loginAttempts?: T;
   lockUntil?: T;
   sessions?:
@@ -1355,6 +1979,49 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "custom-forms_select".
+ */
+export interface CustomFormsSelect<T extends boolean = true> {
+  title?: T;
+  inputs?:
+    | T
+    | {
+        label?: T;
+        inputType?: T;
+        placeholder?: T;
+        options?:
+          | T
+          | {
+              label?: T;
+              id?: T;
+            };
+        required?: T;
+        id?: T;
+      };
+  submitLabel?: T;
+  successMessage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "custom-submissions_select".
+ */
+export interface CustomSubmissionsSelect<T extends boolean = true> {
+  form?: T;
+  formTitle?: T;
+  answers?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1637,6 +2304,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: string;
+  logoText: string;
   navItems?:
     | {
         link: {
@@ -1657,6 +2325,23 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
+  showCta?: boolean | null;
+  cta?: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: string | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: string | Post;
+        } | null);
+    url?: string | null;
+    label: string;
+  };
+  languageLabel?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1666,6 +2351,7 @@ export interface Header {
  */
 export interface Footer {
   id: string;
+  logoText: string;
   navItems?:
     | {
         link: {
@@ -1686,6 +2372,50 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  socialLinks?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: string | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  copyright?: string | null;
+  legalLinks?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: string | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  phone?: string | null;
+  email?: string | null;
+  address?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1694,6 +2424,7 @@ export interface Footer {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
+  logoText?: T;
   navItems?:
     | T
     | {
@@ -1708,6 +2439,17 @@ export interface HeaderSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  showCta?: T;
+  cta?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  languageLabel?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -1717,6 +2459,7 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  logoText?: T;
   navItems?:
     | T
     | {
@@ -1731,6 +2474,38 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  socialLinks?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
+      };
+  copyright?: T;
+  legalLinks?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
+      };
+  phone?: T;
+  email?: T;
+  address?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -1763,7 +2538,10 @@ export interface TaskSchedulePublish {
           value: string | Post;
         } | null);
     global?: string | null;
-    user?: (string | null) | User;
+    user?: {
+      relationTo: 'users';
+      value: string | User;
+    } | null;
   };
   output?: unknown;
 }

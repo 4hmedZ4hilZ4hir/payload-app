@@ -3,7 +3,9 @@ import React from 'react'
 
 import { defaultTheme, themeLocalStorageKey } from '../ThemeSelector/types'
 
+// Sets the theme on the page before it is shown.
 export const InitTheme: React.FC = () => {
+  // Returns the script that sets the theme.
   return (
     // eslint-disable-next-line @next/next/no-before-interactive-script-outside-document
     <Script

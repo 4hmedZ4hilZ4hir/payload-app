@@ -3,6 +3,8 @@
 import config from '@payload-config'
 import { GRAPHQL_POST, REST_OPTIONS } from '@payloadcms/next/routes'
 
+// Handles GraphQL POST requests.
 export const POST = GRAPHQL_POST(config)
 
+// Handles OPTIONS requests for GraphQL.
 export const OPTIONS = REST_OPTIONS(config)

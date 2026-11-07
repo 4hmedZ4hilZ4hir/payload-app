@@ -5,6 +5,7 @@ import { cn } from '@/utilities/ui'
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 
+// Renders the page navigation bar.
 const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
   <nav
     aria-label="pagination"
@@ -14,12 +15,14 @@ const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
   />
 )
 
+// Renders the list that holds the page links.
 const PaginationContent: React.FC<
   { ref?: React.Ref<HTMLUListElement> } & React.HTMLAttributes<HTMLUListElement>
 > = ({ className, ref, ...props }) => (
   <ul className={cn('flex flex-row items-center gap-1', className)} ref={ref} {...props} />
 )
 
+// Renders one item in the page list.
 const PaginationItem: React.FC<
   { ref?: React.Ref<HTMLLIElement> } & React.HTMLAttributes<HTMLLIElement>
 > = ({ className, ref, ...props }) => <li className={cn('', className)} ref={ref} {...props} />
@@ -29,6 +32,7 @@ type PaginationLinkProps = {
 } & Pick<ButtonProps, 'size'> &
   React.ComponentProps<'button'>
 
+// Renders a button that goes to a page.
 const PaginationLink = ({ className, isActive, size = 'icon', ...props }: PaginationLinkProps) => (
   <button
     aria-current={isActive ? 'page' : undefined}
@@ -43,6 +47,7 @@ const PaginationLink = ({ className, isActive, size = 'icon', ...props }: Pagina
   />
 )
 
+// Renders the button that goes to the previous page.
 const PaginationPrevious = ({
   className,
   ...props
@@ -58,6 +63,7 @@ const PaginationPrevious = ({
   </PaginationLink>
 )
 
+// Renders the button that goes to the next page.
 const PaginationNext = ({ className, ...props }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to next page"
@@ -70,6 +76,7 @@ const PaginationNext = ({ className, ...props }: React.ComponentProps<typeof Pag
   </PaginationLink>
 )
 
+// Renders the dots that stand for hidden pages.
 const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<'span'>) => (
   <span
     aria-hidden
@@ -81,6 +88,7 @@ const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<'span'
   </span>
 )
 
+// Exports the page navigation parts.
 export {
   Pagination,
   PaginationContent,

@@ -6,7 +6,9 @@ import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 
+// Renders the medium impact hero.
 export const MediumImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
+  // Returns the hero with text, links and image.
   return (
     <div className="">
       <div className="container mb-8">
@@ -15,6 +17,7 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({ links, media, richTex
         {Array.isArray(links) && links.length > 0 && (
           <ul className="flex gap-4">
             {links.map(({ link }, i) => {
+              // Returns one link item.
               return (
                 <li key={i}>
                   <CMSLink {...link} />

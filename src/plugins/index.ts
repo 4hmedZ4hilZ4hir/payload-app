@@ -13,24 +13,32 @@ import { beforeSyncWithSearch } from '@/search/beforeSync'
 import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
+// Builds the page title for search engines.
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
+  // Returns the title with the site name.
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
 }
 
+// Builds the page address for search engines.
 const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
   const url = getServerSideURL()
 
+  // Returns the full address of the page.
   return doc?.slug ? `${url}/${doc.slug}` : url
 }
 
+// Lists the plugins used by the site.
 export const plugins: Plugin[] = [
   redirectsPlugin({
     collections: ['pages', 'posts'],
     overrides: {
       // @ts-expect-error - This is a valid override, mapped fields don't resolve to the same type
       fields: ({ defaultFields }) => {
+        // Returns the fields with a note on the from field.
         return defaultFields.map((field) => {
+          // Checks if name is in field and name is from.
           if ('name' in field && field.name === 'from') {
+            // Returns the from field with its note added.
             return {
               ...field,
               admin: {
@@ -38,6 +46,7 @@ export const plugins: Plugin[] = [
               },
             }
           }
+          // Returns the field as it is.
           return field
         })
       },
@@ -60,12 +69,16 @@ export const plugins: Plugin[] = [
     },
     formOverrides: {
       fields: ({ defaultFields }) => {
+        // Returns the fields with a richer confirmation message editor.
         return defaultFields.map((field) => {
+          // Checks if name is in field and name is confirmationMessage.
           if ('name' in field && field.name === 'confirmationMessage') {
+            // Returns the confirmation field with a custom editor.
             return {
               ...field,
               editor: lexicalEditor({
                 features: ({ rootFeatures }) => {
+                  // Returns the editor features with headings and a toolbar.
                   return [
                     ...rootFeatures,
                     FixedToolbarFeature(),
@@ -75,6 +88,7 @@ export const plugins: Plugin[] = [
               }),
             }
           }
+          // Returns the field as it is.
           return field
         })
       },
@@ -85,6 +99,7 @@ export const plugins: Plugin[] = [
     beforeSync: beforeSyncWithSearch,
     searchOverrides: {
       fields: ({ defaultFields }) => {
+        // Returns the default fields plus the search fields.
         return [...defaultFields, ...searchFields]
       },
     },

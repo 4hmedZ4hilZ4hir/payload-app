@@ -1,6 +1,8 @@
+// Turns a timestamp into a short date text.
 export const formatDateTime = (timestamp: string): string => {
   const now = new Date()
   let date = now
+  // Checks if timestamp is set.
   if (timestamp) date = new Date(timestamp)
   const months = date.getMonth()
   const days = date.getDate()
@@ -16,5 +18,6 @@ export const formatDateTime = (timestamp: string): string => {
   // const MinMin = (minutes < 10) ? `0${minutes}` : minutes;
   // const SS = (seconds < 10) ? `0${seconds}` : seconds;
 
+  // Returns a text built from values.
   return `${MM}/${DD}/${YYYY}`
 }

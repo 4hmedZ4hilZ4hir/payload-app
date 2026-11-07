@@ -8,6 +8,7 @@ import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 
+// Renders the high impact hero.
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
   const { setHeaderTheme } = useHeaderTheme()
 
@@ -15,17 +16,19 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
     setHeaderTheme('dark')
   })
 
+  // Returns the hero with text, links and image.
   return (
     <div
-      className="relative -mt-[10.4rem] flex items-center justify-center text-white"
+      className="relative mt-[-10.4rem] flex items-center justify-center text-white"
       data-theme="dark"
     >
       <div className="container mb-8 z-10 relative flex items-center justify-center">
-        <div className="max-w-[36.5rem] md:text-center">
+        <div className="max-w-146 md:text-center">
           {richText && <RichText className="mb-6" data={richText} enableGutter={false} />}
           {Array.isArray(links) && links.length > 0 && (
             <ul className="flex md:justify-center gap-4">
               {links.map(({ link }, i) => {
+                // Returns one link item.
                 return (
                   <li key={i}>
                     <CMSLink {...link} />

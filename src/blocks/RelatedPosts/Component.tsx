@@ -7,23 +7,28 @@ import type { Post } from '@/payload-types'
 import { Card } from '../../components/Card'
 import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
+// Describes the data of the related posts.
 export type RelatedPostsProps = {
   className?: string
   docs?: Post[]
   introContent?: DefaultTypedEditorState
 }
 
+// Renders a grid of related posts.
 export const RelatedPosts: React.FC<RelatedPostsProps> = (props) => {
   const { className, docs, introContent } = props
 
+  // Returns the related posts section.
   return (
     <div className={clsx('lg:container', className)}>
       {introContent && <RichText data={introContent} enableGutter={false} />}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-stretch">
         {docs?.map((doc, index) => {
+          // Returns nothing when the post is only an id.
           if (typeof doc === 'string') return null
 
+          // Returns the post card.
           return <Card key={index} doc={doc} relationTo="posts" showCategories />
         })}
       </div>

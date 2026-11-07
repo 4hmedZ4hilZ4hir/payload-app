@@ -15,16 +15,20 @@ const initialContext: ThemeContextType = {
 
 const ThemeContext = createContext(initialContext)
 
+// Provides the theme to the whole page.
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setThemeState] = useState<Theme | undefined>(
     canUseDOM ? (document.documentElement.getAttribute('data-theme') as Theme) : undefined,
   )
 
+  // Sets theme.
   const setTheme = useCallback((themeToSet: Theme | null) => {
+    // Checks if theme to set is missing.
     if (themeToSet === null) {
       window.localStorage.removeItem(themeLocalStorageKey)
       const implicitPreference = getImplicitPreference()
       document.documentElement.setAttribute('data-theme', implicitPreference || '')
+      // Checks if implicit preference is set.
       if (implicitPreference) setThemeState(implicitPreference)
     } else {
       setThemeState(themeToSet)
@@ -37,11 +41,13 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     let themeToSet: Theme = defaultTheme
     const preference = window.localStorage.getItem(themeLocalStorageKey)
 
+    // Checks if the saved theme is valid.
     if (themeIsValid(preference)) {
       themeToSet = preference
     } else {
       const implicitPreference = getImplicitPreference()
 
+      // Checks if implicit preference is set.
       if (implicitPreference) {
         themeToSet = implicitPreference
       }
@@ -51,7 +57,9 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     setThemeState(themeToSet)
   }, [])
 
+  // Returns the provider wrapped around its children.
   return <ThemeContext value={{ setTheme, theme }}>{children}</ThemeContext>
 }
 
+// Gives access to the theme.
 export const useTheme = (): ThemeContextType => use(ThemeContext)

@@ -6,10 +6,12 @@ type HomeArgs = {
   metaImage: Media
 }
 
+// Builds the seed data for the home page.
 export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   heroImage,
   metaImage,
 }) => {
+  // Returns the home page data.
   return {
     slug: 'home',
     _status: 'published',

@@ -14,10 +14,12 @@ type LowImpactHeroType =
       richText?: Page['hero']['richText']
     })
 
+// Renders the low impact hero.
 export const LowImpactHero: React.FC<LowImpactHeroType> = ({ children, richText }) => {
+  // Returns the hero text section.
   return (
     <div className="container mt-16">
-      <div className="max-w-[48rem]">
+      <div className="max-w-3xl">
         {children || (richText && <RichText data={richText} enableGutter={false} />)}
       </div>
     </div>

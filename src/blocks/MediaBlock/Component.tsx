@@ -18,6 +18,7 @@ type Props = MediaBlockProps & {
   disableInnerContainer?: boolean
 }
 
+// Renders the media block with its caption.
 export const MediaBlock: React.FC<Props> = (props) => {
   const {
     captionClassName,
@@ -30,8 +31,10 @@ export const MediaBlock: React.FC<Props> = (props) => {
   } = props
 
   let caption
+  // Checks if media is set and media is an object.
   if (media && typeof media === 'object') caption = media.caption
 
+  // Returns the media section.
   return (
     <div
       className={cn(

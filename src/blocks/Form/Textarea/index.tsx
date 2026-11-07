@@ -8,6 +8,7 @@ import React from 'react'
 import { Error } from '../Error'
 import { Width } from '../Width'
 
+// Shows a large text field.
 export const Textarea: React.FC<
   TextField & {
     errors: Partial<FieldErrorsImpl>
@@ -15,6 +16,7 @@ export const Textarea: React.FC<
     rows?: number
   }
 > = ({ name, defaultValue, errors, label, register, required, rows = 3, width }) => {
+  // Returns the text area field.
   return (
     <Width width={width}>
       <Label htmlFor={name}>

@@ -8,6 +8,7 @@ import { State } from './State'
 import { Text } from './Text'
 import { Textarea } from './Textarea'
 
+// Lists the field components by field type.
 export const fields = {
   checkbox: Checkbox,
   country: Country,

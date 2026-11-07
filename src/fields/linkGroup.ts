@@ -10,6 +10,7 @@ type LinkGroupType = (options?: {
   overrides?: Partial<ArrayField>
 }) => Field
 
+// Builds a list of links field.
 export const linkGroup: LinkGroupType = ({ appearances, overrides = {} } = {}) => {
   const generatedLinkGroup: Field = {
     name: 'links',
@@ -24,5 +25,6 @@ export const linkGroup: LinkGroupType = ({ appearances, overrides = {} } = {}) =
     },
   }
 
+  // Returns the links field with the overrides applied.
   return deepMerge(generatedLinkGroup, overrides)
 }

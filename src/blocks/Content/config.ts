@@ -38,6 +38,7 @@ const columnFields: Field[] = [
     type: 'richText',
     editor: lexicalEditor({
       features: ({ rootFeatures }) => {
+        // Returns the editor features with headings and toolbars.
         return [
           ...rootFeatures,
           HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
@@ -56,6 +57,7 @@ const columnFields: Field[] = [
     overrides: {
       admin: {
         condition: (_data, siblingData) => {
+          // Returns true when the link is turned on.
           return Boolean(siblingData?.enableLink)
         },
       },
@@ -63,6 +65,7 @@ const columnFields: Field[] = [
   }),
 ]
 
+// Defines the Content block.
 export const Content: Block = {
   slug: 'content',
   interfaceName: 'ContentBlock',

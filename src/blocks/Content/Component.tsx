@@ -6,6 +6,7 @@ import type { ContentBlock as ContentBlockProps } from '@/payload-types'
 
 import { CMSLink } from '../../components/Link'
 
+// Renders the content block with its columns.
 export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   const { columns } = props
 
@@ -16,6 +17,7 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
     twoThirds: '8',
   }
 
+  // Returns the content section.
   return (
     <div className="container my-16">
       <div className="grid grid-cols-4 lg:grid-cols-12 gap-y-8 gap-x-16">
@@ -24,6 +26,7 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
           columns.map((col, index) => {
             const { enableLink, link, richText, size } = col
 
+            // Returns one column.
             return (
               <div
                 className={cn(`col-span-4 lg:col-span-${colsSpanClasses[size!]}`, {

@@ -16,13 +16,16 @@ export const PayloadRedirects: React.FC<Props> = async ({ disableNotFound, url }
 
   const redirectItem = redirects.find((redirect) => redirect.from === url)
 
+  // Checks if redirect item is set.
   if (redirectItem) {
+    // Checks if url is set.
     if (redirectItem.to?.url) {
       redirect(redirectItem.to.url)
     }
 
     let redirectUrl: string
 
+    // Checks if value is a string.
     if (typeof redirectItem.to?.reference?.value === 'string') {
       const collection = redirectItem.to?.reference?.relationTo
       const id = redirectItem.to?.reference?.value
@@ -39,9 +42,11 @@ export const PayloadRedirects: React.FC<Props> = async ({ disableNotFound, url }
       }`
     }
 
+    // Checks if redirect url is set.
     if (redirectUrl) redirect(redirectUrl)
   }
 
+  // Returns nothing when the not found page is turned off.
   if (disableNotFound) return null
 
   notFound()

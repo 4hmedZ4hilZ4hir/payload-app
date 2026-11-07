@@ -6,6 +6,7 @@ import type { Post } from '@/payload-types'
 import { Media } from '@/components/Media'
 import { formatAuthors } from '@/utilities/formatAuthors'
 
+// Renders the hero of a post.
 export const PostHero: React.FC<{
   post: Post
 }> = ({ post }) => {
@@ -14,12 +15,14 @@ export const PostHero: React.FC<{
   const hasAuthors =
     populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== ''
 
+  // Returns the hero with title, authors and date.
   return (
-    <div className="relative -mt-[10.4rem] flex items-end">
+    <div className="relative mt-[-10.4rem] flex items-end">
       <div className="container z-10 relative lg:grid lg:grid-cols-[1fr_48rem_1fr] text-white pb-8">
         <div className="col-start-1 col-span-1 md:col-start-2 md:col-span-2">
           <div className="uppercase text-sm mb-6">
             {categories?.map((category, index) => {
+              // Checks if category is an object and category exists.
               if (typeof category === 'object' && category !== null) {
                 const { title: categoryTitle } = category
 
@@ -27,6 +30,7 @@ export const PostHero: React.FC<{
 
                 const isLast = index === categories.length - 1
 
+                // Returns one category name.
                 return (
                   <React.Fragment key={index}>
                     {titleToUse}
@@ -34,6 +38,7 @@ export const PostHero: React.FC<{
                   </React.Fragment>
                 )
               }
+              // Returns nothing when the category is not loaded.
               return null
             })}
           </div>

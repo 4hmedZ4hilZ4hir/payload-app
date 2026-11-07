@@ -27,6 +27,7 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from 'payload'
 
+// Defines the Posts collection.
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
   access: {
@@ -86,6 +87,7 @@ export const Posts: CollectionConfig<'posts'> = {
               type: 'richText',
               editor: lexicalEditor({
                 features: ({ rootFeatures }) => {
+                  // Returns the editor features with the extra tools added.
                   return [
                     ...rootFeatures,
                     HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
@@ -111,6 +113,7 @@ export const Posts: CollectionConfig<'posts'> = {
                 position: 'sidebar',
               },
               filterOptions: ({ id }) => {
+                // Returns the filter for related posts.
                 return {
                   id: {
                     not_in: [id],
@@ -173,9 +176,12 @@ export const Posts: CollectionConfig<'posts'> = {
       hooks: {
         beforeChange: [
           ({ siblingData, value }) => {
+            // Checks if status is published and value is missing.
             if (siblingData._status === 'published' && !value) {
+              // Returns the current date when the post is being published.
               return new Date()
             }
+            // Returns the existing value otherwise.
             return value
           },
         ],

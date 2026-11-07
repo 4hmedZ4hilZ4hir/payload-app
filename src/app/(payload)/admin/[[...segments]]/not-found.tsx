@@ -15,10 +15,13 @@ type Args = {
   }>
 }
 
+// Builds the metadata for the admin not found page.
 export const generateMetadata = ({ params, searchParams }: Args): Promise<Metadata> =>
   generatePageMetadata({ config, params, searchParams })
 
+// Renders the admin not found page.
 const NotFound = ({ params, searchParams }: Args) =>
   NotFoundPage({ config, params, searchParams, importMap })
 
+// Exports the admin not found page.
 export default NotFound

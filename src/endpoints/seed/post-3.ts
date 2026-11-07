@@ -1,11 +1,13 @@
 import { RequiredDataFromCollectionSlug } from 'payload'
 import type { PostArgs } from './post-1'
 
+// Builds the seed data for the third post.
 export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> = ({
   heroImage,
   blockImage,
   author,
 }) => {
+  // Returns the third post data.
   return {
     slug: 'dollar-and-sense-the-financial-forecast',
     _status: 'published',

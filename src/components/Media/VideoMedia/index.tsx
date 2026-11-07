@@ -7,6 +7,7 @@ import type { Props as MediaProps } from '../types'
 
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 
+// Renders a video from the media library.
 export const VideoMedia: React.FC<MediaProps> = (props) => {
   const { onClick, resource, videoClassName } = props
 
@@ -15,6 +16,7 @@ export const VideoMedia: React.FC<MediaProps> = (props) => {
 
   useEffect(() => {
     const { current: video } = videoRef
+    // Checks if video is set.
     if (video) {
       video.addEventListener('suspend', () => {
         // setShowFallback(true);
@@ -23,9 +25,11 @@ export const VideoMedia: React.FC<MediaProps> = (props) => {
     }
   }, [])
 
+  // Checks if resource is set and resource is an object.
   if (resource && typeof resource === 'object') {
     const { filename } = resource
 
+    // Returns the video player.
     return (
       <video
         autoPlay
@@ -42,5 +46,6 @@ export const VideoMedia: React.FC<MediaProps> = (props) => {
     )
   }
 
+  // Returns nothing when there is no video.
   return null
 }

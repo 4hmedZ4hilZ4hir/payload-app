@@ -14,11 +14,14 @@ import type { Theme } from './types'
 import { useTheme } from '..'
 import { themeLocalStorageKey } from './types'
 
+// Shows a menu for choosing the theme.
 export const ThemeSelector: React.FC = () => {
   const { setTheme } = useTheme()
   const [value, setValue] = useState('')
 
+  // Applies the chosen theme.
   const onThemeChange = (themeToSet: Theme & 'auto') => {
+    // Checks if theme to set is auto.
     if (themeToSet === 'auto') {
       setTheme(null)
       setValue('auto')
@@ -33,6 +36,7 @@ export const ThemeSelector: React.FC = () => {
     setValue(preference ?? 'auto')
   }, [])
 
+  // Returns the theme menu.
   return (
     <Select onValueChange={onThemeChange} value={value}>
       <SelectTrigger

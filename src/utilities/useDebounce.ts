@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 
+// Delays a changing value until it stops changing.
 export function useDebounce<T>(value: T, delay = 200): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value)
 
@@ -8,10 +9,12 @@ export function useDebounce<T>(value: T, delay = 200): T {
       setDebouncedValue(value)
     }, delay)
 
+    // Returns a cleanup that cancels the timer.
     return () => {
       clearTimeout(handler)
     }
   }, [value, delay])
 
+  // Returns the delayed value.
   return debouncedValue
 }

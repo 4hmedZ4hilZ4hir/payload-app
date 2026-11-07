@@ -6,6 +6,7 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
+// Defines the Banner block.
 export const Banner: Block = {
   slug: 'banner',
   fields: [
@@ -26,6 +27,7 @@ export const Banner: Block = {
       type: 'richText',
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
+          // Returns the editor features with toolbars.
           return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
         },
       }),

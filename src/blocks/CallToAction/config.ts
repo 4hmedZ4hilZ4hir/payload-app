@@ -9,6 +9,7 @@ import {
 
 import { linkGroup } from '../../fields/linkGroup'
 
+// Defines the Call to Action block.
 export const CallToAction: Block = {
   slug: 'cta',
   interfaceName: 'CallToActionBlock',
@@ -18,6 +19,7 @@ export const CallToAction: Block = {
       type: 'richText',
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
+          // Returns the editor features with headings and toolbars.
           return [
             ...rootFeatures,
             HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),

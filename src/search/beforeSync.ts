@@ -1,5 +1,6 @@
 import { BeforeSync, DocToSync } from '@payloadcms/plugin-search/types'
 
+// Prepares a document before it is saved to search.
 export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searchDoc }) => {
   const {
     doc: { relationTo: collection },
@@ -19,13 +20,16 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
     categories: [],
   }
 
+  // Checks if categories is set and categories is a list and categories has items.
   if (categories && Array.isArray(categories) && categories.length > 0) {
     const populatedCategories: { id: string | number; title: string }[] = []
     for (const category of categories) {
+      // Checks if category is missing.
       if (!category) {
         continue
       }
 
+      // Checks if category is an object.
       if (typeof category === 'object') {
         populatedCategories.push(category)
         continue
@@ -40,6 +44,7 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
         req,
       })
 
+      // Checks if doc exists.
       if (doc !== null) {
         populatedCategories.push(doc)
       } else {
@@ -56,5 +61,6 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
     }))
   }
 
+  // Returns the document ready for search.
   return modifiedDoc
 }

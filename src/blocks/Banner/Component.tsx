@@ -8,7 +8,9 @@ type Props = {
   className?: string
 } & BannerBlockProps
 
+// Renders a colored banner with rich text.
 export const BannerBlock: React.FC<Props> = ({ className, content, style }) => {
+  // Returns the banner section.
   return (
     <div className={cn('mx-auto my-8 w-full', className)}>
       <div

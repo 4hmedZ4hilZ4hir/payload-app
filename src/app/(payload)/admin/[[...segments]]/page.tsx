@@ -15,10 +15,13 @@ type Args = {
   }>
 }
 
+// Builds the metadata for the admin page.
 export const generateMetadata = ({ params, searchParams }: Args): Promise<Metadata> =>
   generatePageMetadata({ config, params, searchParams })
 
+// Renders the admin page.
 const Page = ({ params, searchParams }: Args) =>
   RootPage({ config, params, searchParams, importMap })
 
+// Exports the admin page.
 export default Page

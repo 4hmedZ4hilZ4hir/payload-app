@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import type { User } from '../payload-types'
 import { getClientSideURL } from './getURL'
 
+// Gets the signed-in user or sends them to the login page.
 export const getMeUser = async (args?: {
   nullUserRedirect?: string
   validUserRedirect?: string
@@ -27,10 +28,12 @@ export const getMeUser = async (args?: {
     user: User
   } = await meUserReq.json()
 
+  // Checks if valid user redirect is set and ok is set and user is set.
   if (validUserRedirect && meUserReq.ok && user) {
     redirect(validUserRedirect)
   }
 
+  // Checks if null user redirect is set and ok is missing or user is missing.
   if (nullUserRedirect && (!meUserReq.ok || !user)) {
     redirect(nullUserRedirect)
   }

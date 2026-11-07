@@ -2,6 +2,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { unstable_cache } from 'next/cache'
 
+// Loads all the redirects.
 export async function getRedirects(depth = 1) {
   const payload = await getPayload({ config: configPromise })
 
@@ -12,6 +13,7 @@ export async function getRedirects(depth = 1) {
     pagination: false,
   })
 
+  // Returns the redirects.
   return redirects
 }
 

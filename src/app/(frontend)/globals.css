@@ -45,6 +45,67 @@
   --breakpoint-2xl: 86rem;
   --font-mono: var(--font-geist-mono);
   --font-sans: var(--font-geist-sans);
+  --font-serif: var(--font-instrument-serif);
+  --font-display: var(--font-oswald);
+
+  --color-ink: #161616;
+  --color-cream: #f3f1ec;
+  --color-bar: #e8896a;
+
+  --text-d12: calc(var(--u) * 12);
+  --text-d13: calc(var(--u) * 13);
+  --text-d14: calc(var(--u) * 14);
+  --text-d15: calc(var(--u) * 15);
+  --text-d16: calc(var(--u) * 16);
+  --text-d17: calc(var(--u) * 17);
+  --text-d18: calc(var(--u) * 18);
+  --text-d20: calc(var(--u) * 20);
+  --text-d23: calc(var(--u) * 23);
+  --text-d24: calc(var(--u) * 24);
+  --text-d25: calc(var(--u) * 25);
+  --text-d26: calc(var(--u) * 26);
+  --text-d27: calc(var(--u) * 27);
+  --text-d28: calc(var(--u) * 28);
+  --text-d30: calc(var(--u) * 30);
+  --text-d44: calc(var(--u) * 44);
+  --text-d52: calc(var(--u) * 52);
+  --text-d70: calc(var(--u) * 70);
+  --text-d72: calc(var(--u) * 72);
+  --text-d80: calc(var(--u) * 80);
+  --leading-d17: calc(var(--u) * 17);
+  --leading-d19: calc(var(--u) * 19);
+  --leading-d24: calc(var(--u) * 24);
+  --leading-d25: calc(var(--u) * 25);
+  --leading-d27: calc(var(--u) * 27);
+  --leading-d30: calc(var(--u) * 30);
+  --leading-d31: calc(var(--u) * 31);
+  --leading-d34: calc(var(--u) * 34);
+  --leading-d35: calc(var(--u) * 35);
+  --leading-d37: calc(var(--u) * 37);
+  --leading-d40: calc(var(--u) * 40);
+  --leading-d52: calc(var(--u) * 52);
+  --leading-d57: calc(var(--u) * 57);
+  --leading-d72: calc(var(--u) * 72);
+  --leading-d76: calc(var(--u) * 76);
+  --radius-d2: calc(var(--u) * 2);
+  --radius-d6: calc(var(--u) * 6);
+  --radius-d10: calc(var(--u) * 10);
+  --radius-d14: calc(var(--u) * 14);
+  --radius-d18: calc(var(--u) * 18);
+  --radius-d19: calc(var(--u) * 19);
+  --radius-d20: calc(var(--u) * 20);
+  --radius-d22: calc(var(--u) * 22);
+  --radius-d34: calc(var(--u) * 34);
+  --radius-d36: calc(var(--u) * 36);
+  --leading-d28: calc(var(--u) * 28);
+  --leading-d32: calc(var(--u) * 32);
+  --radius-d24: calc(var(--u) * 24);
+  --radius-d26: calc(var(--u) * 26);
+  --radius-d29: calc(var(--u) * 29);
+}
+
+:root {
+  --u: calc(min(100vw, 1920px) / 1440);
 }
 
 @layer utilities {
@@ -210,7 +271,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground min-h-[100vh] flex flex-col;
+    @apply bg-background text-foreground min-h-screen flex flex-col;
   }
 }
 
@@ -221,4 +282,8 @@ html {
 html[data-theme='dark'],
 html[data-theme='light'] {
   opacity: initial;
+}
+
+body:has([data-hero-theme='light']) [data-header-band] {
+  background-color: #efefed;
 }

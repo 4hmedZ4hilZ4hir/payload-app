@@ -16,12 +16,14 @@ import { Error } from '../Error'
 import { Width } from '../Width'
 import { stateOptions } from './options'
 
+// Shows a state dropdown field.
 export const State: React.FC<
   StateField & {
     control: Control
     errors: Partial<FieldErrorsImpl>
   }
 > = ({ name, control, errors, label, required, width }) => {
+  // Returns the state field.
   return (
     <Width width={width}>
       <Label htmlFor={name}>
@@ -39,6 +41,7 @@ export const State: React.FC<
         render={({ field: { onChange, value } }) => {
           const controlledValue = stateOptions.find((t) => t.value === value)
 
+          // Returns the state dropdown.
           return (
             <Select onValueChange={(val) => onChange(val)} value={controlledValue?.value}>
               <SelectTrigger className="w-full" id={name}>
@@ -46,6 +49,7 @@ export const State: React.FC<
               </SelectTrigger>
               <SelectContent>
                 {stateOptions.map(({ label, value }) => {
+                  // Returns one state item.
                   return (
                     <SelectItem key={value} value={value}>
                       {label}

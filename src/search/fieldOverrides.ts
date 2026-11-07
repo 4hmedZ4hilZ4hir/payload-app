@@ -1,5 +1,6 @@
 import { Field } from 'payload'
 
+// Defines the extra fields of the search results.
 export const searchFields: Field[] = [
   {
     name: 'slug',

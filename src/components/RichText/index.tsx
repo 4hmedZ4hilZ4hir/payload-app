@@ -26,15 +26,19 @@ type NodeTypes =
   | DefaultNodeTypes
   | SerializedBlockNode<CTABlockProps | MediaBlockProps | BannerBlockProps | CodeBlockProps>
 
+// Builds the link address for a linked page or post.
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
   const { value, relationTo } = linkNode.fields.doc!
+  // Checks if value is not an object.
   if (typeof value !== 'object') {
     throw new Error('Expected value to be an object')
   }
   const slug = value.slug
+  // Returns the address of the linked document.
   return relationTo === 'posts' ? `/posts/${slug}` : `/${slug}`
 }
 
+// Defines how rich text nodes turn into page elements.
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
   ...defaultConverters,
   ...LinkJSXConverter({ internalDocToHref }),
@@ -61,8 +65,10 @@ type Props = {
   enableProse?: boolean
 } & React.HTMLAttributes<HTMLDivElement>
 
+// Renders rich text content from the CMS.
 export default function RichText(props: Props) {
   const { className, enableProse = true, enableGutter = true, ...rest } = props
+  // Returns the converted rich text.
   return (
     <ConvertRichText
       converters={jsxConverters}

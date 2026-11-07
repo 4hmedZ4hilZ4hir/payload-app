@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 
+// Defines the Users collection.
 export const Users: CollectionConfig = {
   slug: 'users',
   access: {

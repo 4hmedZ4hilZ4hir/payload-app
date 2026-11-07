@@ -3,6 +3,7 @@ import type { ElementType, Ref } from 'react'
 
 import type { Media as MediaType } from '@/payload-types'
 
+// Describes the props of the media components.
 export interface Props {
   alt?: string
   className?: string

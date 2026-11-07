@@ -5,6 +5,12 @@ import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Archive } from '../../blocks/ArchiveBlock/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
+import { CustomForm } from '../../blocks/CustomForm/config'
+import { FaqList } from '../../blocks/FaqList/config'
+import { FeatureCards } from '../../blocks/FeatureCards/config'
+import { FeatureCarousel } from '../../blocks/FeatureCarousel/config'
+import { FeatureSplit } from '../../blocks/FeatureSplit/config'
+import { NewsBlock } from '../../blocks/NewsBlock/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { hero } from '@/heros/config'
@@ -12,6 +18,7 @@ import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
+import { validateBeforePublish } from './hooks/validateBeforePublish'
 
 import {
   MetaDescriptionField,
@@ -21,6 +28,7 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 
+// Defines the Pages collection.
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   access: {
@@ -72,7 +80,19 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],
+              blocks: [
+                CallToAction,
+                Content,
+                MediaBlock,
+                Archive,
+                FormBlock,
+                FeatureSplit,
+                FeatureCards,
+                FaqList,
+                FeatureCarousel,
+                NewsBlock,
+                CustomForm,
+              ],
               required: true,
               admin: {
                 initCollapsed: true,
@@ -121,7 +141,7 @@ export const Pages: CollectionConfig<'pages'> = {
   ],
   hooks: {
     afterChange: [revalidatePage],
-    beforeChange: [populatePublishedAt],
+    beforeChange: [validateBeforePublish, populatePublishedAt],
     afterDelete: [revalidateDelete],
   },
   versions: {

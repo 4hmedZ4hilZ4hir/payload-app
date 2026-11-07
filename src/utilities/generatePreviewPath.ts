@@ -12,8 +12,11 @@ type Props = {
   req: PayloadRequest
 }
 
+// Builds the preview link for a document.
 export const generatePreviewPath = ({ collection, slug }: Props) => {
+  // Checks if slug is missing or slug is missing.
   if (slug === undefined || slug === null) {
+    // Returns nothing when there is no slug.
     return null
   }
 
@@ -27,5 +30,6 @@ export const generatePreviewPath = ({ collection, slug }: Props) => {
 
   const url = `/next/preview?${encodedParams.toString()}`
 
+  // Returns the preview link.
   return url
 }

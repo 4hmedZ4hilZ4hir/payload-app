@@ -45,6 +45,7 @@ const placeholderBlur =
  * remotePatterns for optimization. Only add `loader` if using external CDNs with custom transforms.
  */
 
+// Renders an image from the media library.
 export const ImageMedia: React.FC<MediaProps> = (props) => {
   const {
     alt: altFromProps,
@@ -63,6 +64,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
   let alt = altFromProps
   let src: StaticImageData | string = srcFromProps || ''
 
+  // Checks if src is missing and resource is set and resource is an object.
   if (!src && resource && typeof resource === 'object') {
     const { alt: altFromResource, height: fullHeight, url, width: fullWidth } = resource
 
@@ -84,8 +86,9 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         .map(([, value]) => `(max-width: ${value}px) ${value * 2}w`)
         .join(', ')
 
+  // Returns the image.
   return (
-    <picture className={cn(pictureClassName)}>
+    <picture className={cn(fill && 'absolute inset-0', pictureClassName)}>
       <NextImage
         alt={alt || ''}
         className={cn(imgClassName)}

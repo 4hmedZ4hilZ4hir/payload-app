@@ -8,12 +8,14 @@ import React from 'react'
 import { Error } from '../Error'
 import { Width } from '../Width'
 
+// Shows an email field.
 export const Email: React.FC<
   EmailField & {
     errors: Partial<FieldErrorsImpl>
     register: UseFormRegister<FieldValues>
   }
 > = ({ name, defaultValue, errors, label, register, required, width }) => {
+  // Returns the email field.
   return (
     <Width width={width}>
       <Label htmlFor={name}>

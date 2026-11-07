@@ -1,7 +1,9 @@
 import { cn } from '@/utilities/ui'
 import * as React from 'react'
 
+// Renders the card box.
 const Card: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => {
+  // Returns the card container.
   return (
     <div
       data-slot="card"
@@ -11,7 +13,9 @@ const Card: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...pr
   )
 }
 
+// Renders the top part of a card.
 const CardHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => {
+  // Returns the card header container.
   return (
     <div
       data-slot="card-header"
@@ -21,7 +25,9 @@ const CardHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className,
   )
 }
 
+// Renders the title of a card.
 const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ className, ...props }) => {
+  // Returns the card title heading.
   return (
     <h3
       data-slot="card-title"
@@ -31,10 +37,12 @@ const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ classNa
   )
 }
 
+// Renders the short description of a card.
 const CardDescription: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({
   className,
   ...props
 }) => {
+  // Returns the card description text.
   return (
     <p
       data-slot="card-description"
@@ -44,11 +52,15 @@ const CardDescription: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({
   )
 }
 
+// Renders the main content of a card.
 const CardContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => {
+  // Returns the card content container.
   return <div data-slot="card-content" className={cn('p-6 pt-0', className)} {...props} />
 }
 
+// Renders the bottom part of a card.
 const CardFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => {
+  // Returns the card footer container.
   return (
     <div
       data-slot="card-footer"
@@ -58,4 +70,5 @@ const CardFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className,
   )
 }
 
+// Exports the card parts.
 export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }

@@ -16,12 +16,14 @@ import { Error } from '../Error'
 import { Width } from '../Width'
 import { countryOptions } from './options'
 
+// Shows a country dropdown field.
 export const Country: React.FC<
   CountryField & {
     control: Control
     errors: Partial<FieldErrorsImpl>
   }
 > = ({ name, control, errors, label, required, width }) => {
+  // Returns the country field.
   return (
     <Width width={width}>
       <Label className="" htmlFor={name}>
@@ -40,6 +42,7 @@ export const Country: React.FC<
         render={({ field: { onChange, value } }) => {
           const controlledValue = countryOptions.find((t) => t.value === value)
 
+          // Returns the country dropdown.
           return (
             <Select onValueChange={(val) => onChange(val)} value={controlledValue?.value}>
               <SelectTrigger className="w-full" id={name}>
@@ -47,6 +50,7 @@ export const Country: React.FC<
               </SelectTrigger>
               <SelectContent>
                 {countryOptions.map(({ label, value }) => {
+                  // Returns one country item.
                   return (
                     <SelectItem key={value} value={value}>
                       {label}

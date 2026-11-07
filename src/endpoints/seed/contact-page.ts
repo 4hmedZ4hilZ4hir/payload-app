@@ -5,9 +5,11 @@ type ContactArgs = {
   contactForm: Form
 }
 
+// Builds the seed data for the contact page.
 export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   contactForm,
 }) => {
+  // Returns the contact page data.
   return {
     slug: 'contact',
     _status: 'published',

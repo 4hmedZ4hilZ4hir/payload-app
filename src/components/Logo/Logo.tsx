@@ -7,12 +7,14 @@ interface Props {
   priority?: 'auto' | 'high' | 'low'
 }
 
+// Renders the site logo.
 export const Logo = (props: Props) => {
   const { loading: loadingFromProps, priority: priorityFromProps, className } = props
 
   const loading = loadingFromProps || 'lazy'
   const priority = priorityFromProps || 'low'
 
+  // Returns the logo image.
   return (
     /* eslint-disable @next/next/no-img-element */
     <img
@@ -22,7 +24,7 @@ export const Logo = (props: Props) => {
       loading={loading}
       fetchPriority={priority}
       decoding="async"
-      className={clsx('max-w-[9.375rem] w-full h-[34px]', className)}
+      className={clsx('max-w-37.5 w-full h-8.5', className)}
       src="https://raw.githubusercontent.com/payloadcms/payload/3.x/packages/ui/src/assets/payload-logo-light.svg"
     />
   )

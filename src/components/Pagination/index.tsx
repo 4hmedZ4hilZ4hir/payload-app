@@ -12,6 +12,7 @@ import { cn } from '@/utilities/ui'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
+// Renders the page numbers and moves between pages.
 export const Pagination: React.FC<{
   className?: string
   page: number
@@ -26,6 +27,7 @@ export const Pagination: React.FC<{
   const hasExtraPrevPages = page - 1 > 1
   const hasExtraNextPages = page + 1 < totalPages
 
+  // Returns the page navigation.
   return (
     <div className={cn('my-12', className)}>
       <PaginationComponent>

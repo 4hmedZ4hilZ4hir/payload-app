@@ -13,8 +13,10 @@ type Args = {
   children: React.ReactNode
 }
 
+// Runs admin panel actions on the server.
 const serverFunction: ServerFunctionClient = async function (args) {
   'use server'
+  // Returns the result of the server action.
   return handleServerFunctions({
     ...args,
     config,
@@ -22,10 +24,12 @@ const serverFunction: ServerFunctionClient = async function (args) {
   })
 }
 
+// Renders the admin panel layout.
 const Layout = ({ children }: Args) => (
   <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
     {children}
   </RootLayout>
 )
 
+// Exports the admin panel layout.
 export default Layout

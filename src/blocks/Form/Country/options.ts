@@ -1,3 +1,4 @@
+// Lists the countries to choose from.
 export const countryOptions = [
   {
     label: 'Afghanistan',

@@ -5,6 +5,8 @@ import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
+import { CustomForms } from './collections/CustomForms'
+import { CustomSubmissions } from './collections/CustomSubmissions'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
@@ -18,6 +20,7 @@ import { getServerSideURL } from './utilities/getURL'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// Defines the Payload CMS setup.
 export default buildConfig({
   admin: {
     components: {
@@ -60,7 +63,7 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URL || '',
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, Media, Categories, Users, CustomForms, CustomSubmissions],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins,
@@ -73,15 +76,18 @@ export default buildConfig({
     access: {
       run: ({ req }: { req: PayloadRequest }): boolean => {
         // Allow logged in users to execute this endpoint (default)
+        // Returns true because logged in users may run jobs.
         if (req.user) return true
 
         const secret = process.env.CRON_SECRET
+        // Returns false when no cron secret is set.
         if (!secret) return false
 
         // If there is no logged in user, then check
         // for the Vercel Cron secret to be present as an
         // Authorization header:
         const authHeader = req.headers.get('authorization')
+        // Returns whether the request carries the cron secret.
         return authHeader === `Bearer ${secret}`
       },
     },

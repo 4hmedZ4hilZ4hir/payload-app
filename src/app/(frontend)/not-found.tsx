@@ -3,7 +3,9 @@ import React from 'react'
 
 import { Button } from '@/components/ui/button'
 
+// Renders the page not found message.
 export default function NotFound() {
+  // Returns the 404 message with a link home.
   return (
     <div className="container py-28">
       <div className="prose max-w-none">

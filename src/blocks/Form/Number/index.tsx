@@ -7,12 +7,14 @@ import React from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
+// Shows a number field.
 export const Number: React.FC<
   TextField & {
     errors: Partial<FieldErrorsImpl>
     register: UseFormRegister<FieldValues>
   }
 > = ({ name, defaultValue, errors, label, register, required, width }) => {
+  // Returns the number field.
   return (
     <Width width={width}>
       <Label htmlFor={name}>

@@ -29,8 +29,10 @@ const collectionLabels = {
   },
 }
 
+// Renders the title shown in the admin bar.
 const Title: React.FC = () => <span>Dashboard</span>
 
+// Shows the admin bar when an admin is logged in.
 export const AdminBar: React.FC<{
   adminBarProps?: PayloadAdminBarProps
 }> = (props) => {
@@ -42,10 +44,12 @@ export const AdminBar: React.FC<{
   ) as keyof typeof collectionLabels
   const router = useRouter()
 
+  // Shows or hides the bar when the user logs in or out.
   const onAuthChange = React.useCallback((user: PayloadMeUser) => {
     setShow(Boolean(user?.id))
   }, [])
 
+  // Returns the admin bar.
   return (
     <div
       className={cn(baseClass, 'py-2 bg-black text-white', {

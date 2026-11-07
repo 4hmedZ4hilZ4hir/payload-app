@@ -1,5 +1,6 @@
 import { RequiredDataFromCollectionSlug } from 'payload'
 
+// Defines the seed data for the contact form.
 export const contactForm: RequiredDataFromCollectionSlug<'forms'> = {
   confirmationMessage: {
     root: {

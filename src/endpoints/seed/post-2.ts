@@ -1,11 +1,13 @@
 import { RequiredDataFromCollectionSlug } from 'payload'
 import type { PostArgs } from './post-1'
 
+// Builds the seed data for the second post.
 export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> = ({
   heroImage,
   blockImage,
   author,
 }) => {
+  // Returns the second post data.
   return {
     slug: 'global-gaze',
     _status: 'published',
