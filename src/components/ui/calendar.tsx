@@ -2,29 +2,36 @@
 
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from 'lucide-react'
 import * as React from 'react'
 import { DayPicker } from 'react-day-picker'
 
-// Draws the arrow icons of the month buttons.
-const Chevron: React.FC<{ orientation?: 'left' | 'right' | 'up' | 'down' }> = ({ orientation }) => {
-  // Checks if the arrow points left.
-  if (orientation === 'left') {
-    // Returns the left arrow.
-    return <ChevronLeft className="size-4" />
+// Draws the arrow icons of the month buttons and dropdowns.
+function Chevron({
+  orientation,
+}: {
+  orientation?: 'left' | 'right' | 'up' | 'down'
+}): React.JSX.Element {
+  // Picks the arrow that matches the requested direction.
+  switch (orientation) {
+    case 'left':
+      return <ChevronLeft className="size-4" />
+    case 'up':
+      return <ChevronUp className="size-4" />
+    case 'down':
+      return <ChevronDown className="size-4" />
+    default:
+      return <ChevronRight className="size-4" />
   }
-
-  // Returns the right arrow.
-  return <ChevronRight className="size-4" />
 }
 
 // Renders a month calendar built on react-day-picker.
-const Calendar: React.FC<React.ComponentProps<typeof DayPicker>> = ({
+function Calendar({
   className,
   classNames,
   showOutsideDays = true,
   ...props
-}) => {
+}: React.ComponentProps<typeof DayPicker>): React.JSX.Element {
   // Returns the calendar with shadcn styles.
   return (
     <DayPicker
