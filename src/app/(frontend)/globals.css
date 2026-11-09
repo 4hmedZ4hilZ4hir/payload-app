@@ -287,3 +287,20 @@ html[data-theme='light'] {
 body:has([data-hero-theme='light']) [data-header-band] {
   background-color: #efefed;
 }
+
+/* Gentle up and down drift for floating hero cards. */
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [style*='hero-float'] {
+    animation: none !important;
+  }
+}

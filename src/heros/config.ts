@@ -120,10 +120,68 @@ export const hero: Field = {
       type: 'array',
       label: 'Stats row',
       maxRows: 4,
-      admin: { initCollapsed: true, condition: isType('altHero') },
+      admin: { initCollapsed: true, condition: isType('hero', 'altHero') },
       fields: [
-        { name: 'value', type: 'text', required: true, label: 'Value' },
-        { name: 'label', type: 'text', required: true, label: 'Label' },
+        {
+          name: 'icon',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Logo / icon (optional)',
+        },
+        { name: 'title', type: 'text', label: 'Top name (optional)' },
+        {
+          name: 'badge',
+          type: 'text',
+          label: 'Top-right chip (optional)',
+        },
+        {
+          name: 'label',
+          type: 'text',
+          label: 'Label',
+        },
+        {
+          name: 'value',
+          type: 'text',
+          label: 'Big value (optional)',
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Small text (optional)',
+        },
+        {
+          name: 'currencies',
+          type: 'array',
+          label: 'Currency switcher (optional)',
+          admin: {
+            description:
+              'The first currency is the one the big value is typed in. Others are converted with their rate.',
+          },
+          maxRows: 6,
+          fields: [
+            { name: 'code', type: 'text', required: true, label: 'Code (USD)' },
+            { name: 'symbol', type: 'text', label: 'Symbol ($)' },
+            { name: 'flag', type: 'text', label: 'Country code for the flag (us)', maxLength: 2 },
+            {
+              name: 'rate',
+              type: 'number',
+              label: 'Rate compared to the first currency',
+              defaultValue: 1,
+            },
+          ],
+        },
+        { name: 'accountLast4', type: 'text', label: 'Account number: last 4 digits', maxLength: 4 },
+        { name: 'validThru', type: 'text', label: 'Valid thru (date)' },
+        {
+          name: 'details',
+          type: 'array',
+          label: 'Small details at the bottom (optional)',
+          maxRows: 3,
+          fields: [
+            { name: 'label', type: 'text', required: true },
+            { name: 'value', type: 'text', required: true },
+          ],
+        },
       ],
     },
 

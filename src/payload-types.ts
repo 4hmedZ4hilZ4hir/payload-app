@@ -193,8 +193,33 @@ export interface Page {
     aboutText?: string | null;
     stats?:
       | {
-          value: string;
-          label: string;
+          icon?: (string | null) | Media;
+          title?: string | null;
+          badge?: string | null;
+          label?: string | null;
+          value?: string | null;
+          description?: string | null;
+          /**
+           * The first currency is the one the big value is typed in. Others are converted with their rate.
+           */
+          currencies?:
+            | {
+                code: string;
+                symbol?: string | null;
+                flag?: string | null;
+                rate?: number | null;
+                id?: string | null;
+              }[]
+            | null;
+          accountLast4?: string | null;
+          validThru?: string | null;
+          details?:
+            | {
+                label: string;
+                value: string;
+                id?: string | null;
+              }[]
+            | null;
           id?: string | null;
         }[]
       | null;
@@ -1461,8 +1486,30 @@ export interface PagesSelect<T extends boolean = true> {
         stats?:
           | T
           | {
-              value?: T;
+              icon?: T;
+              title?: T;
+              badge?: T;
               label?: T;
+              value?: T;
+              description?: T;
+              currencies?:
+                | T
+                | {
+                    code?: T;
+                    symbol?: T;
+                    flag?: T;
+                    rate?: T;
+                    id?: T;
+                  };
+              accountLast4?: T;
+              validThru?: T;
+              details?:
+                | T
+                | {
+                    label?: T;
+                    value?: T;
+                    id?: T;
+                  };
               id?: T;
             };
         richText?: T;

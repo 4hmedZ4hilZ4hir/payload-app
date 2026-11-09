@@ -13,6 +13,7 @@ import { FeatureSplitBlock } from '@/blocks/FeatureSplit/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { NewsBlockComponent } from '@/blocks/NewsBlock/Component'
+import { Reveal } from '@/components/Reveal'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -64,17 +65,19 @@ export const RenderBlocks: React.FC<{
               if (fullBleedBlocks.has(blockType)) {
                 // Returns a full width block.
                 return (
-                  // @ts-expect-error there may be some mismatch between the expected types here
-                  <Block key={index} {...block} disableInnerContainer />
+                  <Reveal key={index}>
+                    {/* @ts-expect-error there may be some mismatch between the expected types here */}
+                    <Block {...block} disableInnerContainer />
+                  </Reveal>
                 )
               }
 
               // Returns a block inside a wrapper.
               return (
-                <div className="my-16" key={index}>
+                <Reveal className="my-16" key={index}>
                   {/* @ts-expect-error there may be some mismatch between the expected types here */}
                   <Block {...block} disableInnerContainer />
-                </div>
+                </Reveal>
               )
             }
           }

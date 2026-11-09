@@ -5,6 +5,13 @@ import React, { useEffect, useState } from 'react'
 
 import { cn } from '@/utilities/ui'
 
+const words: Record<string, { unsave: string; copied: string }> = {
+  en: { unsave: 'Unsave', copied: 'Link copied' },
+  es: { unsave: 'Quitar', copied: 'Enlace copiado' },
+  fr: { unsave: 'Retirer', copied: 'Lien copié' },
+  it: { unsave: 'Rimuovi', copied: 'Link copiato' },
+}
+
 type Props = {
   title: string
   saveLabel?: string | null
@@ -16,8 +23,11 @@ export const ArticleActions: React.FC<Props> = ({ title, saveLabel, shareLabel }
   const storageKey = `saved-article:${title}`
   const [saved, setSaved] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [lang, setLang] = useState('en')
+  const t = words[lang] ?? words.en!
 
   useEffect(() => {
+    setLang(document.documentElement.lang || 'en')
     try {
       setSaved(localStorage.getItem(storageKey) === '1')
     } catch {
@@ -60,13 +70,14 @@ export const ArticleActions: React.FC<Props> = ({ title, saveLabel, shareLabel }
           type="button"
           onClick={toggleSave}
           aria-pressed={saved}
+          aria-label={saved ? 'Unsave this article' : 'Save this article'}
           className={cn(
             'flex items-center justify-center gap-3 rounded-full border border-ink px-5 py-3 text-sm text-ink transition-colors hover:bg-ink hover:text-white lg:h-44 lg:gap-12 lg:py-0 lg:text-d15',
             saved && 'bg-ink text-white',
           )}
         >
           <Bookmark className={cn('size-4 lg:size-17', saved && 'fill-current')} />
-          {saved ? 'Saved' : saveLabel}
+          {saved ? t.unsave : saveLabel}
         </button>
       )}
       {shareLabel && (
@@ -76,7 +87,7 @@ export const ArticleActions: React.FC<Props> = ({ title, saveLabel, shareLabel }
           className="flex items-center justify-center gap-3 rounded-full bg-blue-50 px-5 py-3 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-100 lg:h-43 lg:gap-12 lg:py-0 lg:text-d15"
         >
           <Share2 className="size-4 lg:size-17" />
-          {copied ? 'Link copied' : shareLabel}
+          {copied ? t.copied : shareLabel}
         </button>
       )}
     </div>

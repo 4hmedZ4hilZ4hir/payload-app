@@ -1,8 +1,10 @@
-import { ArrowUpRight, AudioLines, ChevronDown, Menu } from 'lucide-react'
+import { ArrowUpRight, AudioLines, Menu } from 'lucide-react'
+import { cookies } from 'next/headers'
 import Link from 'next/link'
 import React from 'react'
 
 import { CMSLink } from '@/components/Link'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 
 const pill =
@@ -12,6 +14,7 @@ const pill =
 export async function Header() {
   const header = await getCachedGlobal('header', 1)()
   const navItems = header?.navItems || []
+  const lang = (await cookies()).get('lang')?.value || 'en'
 
   // Returns the header bar.
   return (
@@ -43,12 +46,7 @@ export async function Header() {
             </CMSLink>
           )}
 
-          {header?.languageLabel && (
-            <span className="hidden items-center gap-2 rounded-full border border-neutral-200 px-4 py-2.5 text-sm text-ink sm:inline-flex">
-              {header.languageLabel}
-              <ChevronDown className="size-4" />
-            </span>
-          )}
+          {header?.languageLabel && <LanguageSwitcher current={lang} />}
 
           <details className="relative md:hidden">
             <summary className="flex size-10 cursor-pointer list-none items-center justify-center rounded-full border border-neutral-200 [&::-webkit-details-marker]:hidden">

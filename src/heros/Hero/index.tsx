@@ -4,9 +4,20 @@ import type { Page } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
+import { HeroStatCard } from '@/components/HeroStatCard'
+import { Reveal } from '@/components/Reveal'
+import { cn } from '@/utilities/ui'
+
+// Corner of the image where each stat card floats.
+const positions = [
+  'left-3 top-3 sm:left-6 sm:top-6 lg:left-25 lg:top-25',
+  'bottom-3 right-3 sm:bottom-6 sm:right-6 lg:bottom-25 lg:right-25',
+  'right-3 top-3 sm:right-6 sm:top-6 lg:right-25 lg:top-25',
+  'bottom-3 left-3 sm:bottom-6 sm:left-6 lg:bottom-25 lg:left-25',
+]
 
 // Renders the dark main hero.
-export const SiteHero: React.FC<Page['hero']> = ({ title, description, links, image }) => {
+export const SiteHero: React.FC<Page['hero']> = ({ title, description, links, image, stats }) => {
   // Returns the hero section.
   return (
     <section className="bg-[#181a1c] text-white lg:[--spacing:var(--u)]">
@@ -42,8 +53,43 @@ export const SiteHero: React.FC<Page['hero']> = ({ title, description, links, im
         </div>
 
         {image && typeof image === 'object' && (
-          <div className="relative mt-10 aspect-4/3 overflow-hidden rounded-2xl sm:aspect-video md:mt-14 lg:mt-53 lg:aspect-auto lg:h-563 lg:rounded-d19">
-            <Media fill priority resource={image} imgClassName="object-cover" />
+          <div className="relative mt-10 md:mt-14 lg:mt-53">
+            <div className="relative aspect-4/3 overflow-hidden rounded-2xl sm:aspect-video lg:aspect-auto lg:h-563 lg:rounded-d19">
+              <Media fill priority resource={image} imgClassName="object-cover" />
+            </div>
+
+            {stats?.slice(0, 4).map((stat, i) => (
+              <div
+                key={stat.id ?? i}
+                className={cn(
+                  'absolute z-10 w-[46%] max-w-56 sm:w-auto sm:max-w-none',
+                  positions[i],
+                )}
+              >
+                <Reveal delay={300 + i * 200}>
+                  <HeroStatCard
+                    floatStyle={{ animation: `hero-float ${6 + i}s ease-in-out ${i * 0.8}s infinite` }}
+                    dropUp={i === 1 || i === 3}
+                    title={stat.title}
+                    badge={stat.badge}
+                    label={stat.label}
+                    value={stat.value}
+                    description={stat.description}
+                    details={stat.details}
+                    accountLast4={stat.accountLast4}
+                    validThru={stat.validThru}
+                    currencies={stat.currencies}
+                    icon={
+                      stat.icon && typeof stat.icon === 'object' ? (
+                        <span className="relative size-7 shrink-0 overflow-hidden rounded-full bg-ink lg:size-32">
+                          <Media fill resource={stat.icon} imgClassName="object-contain" />
+                        </span>
+                      ) : null
+                    }
+                  />
+                </Reveal>
+              </div>
+            ))}
           </div>
         )}
       </div>

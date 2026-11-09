@@ -12,7 +12,7 @@ import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { draftMode } from 'next/headers'
+import { cookies, draftMode } from 'next/headers'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -31,10 +31,12 @@ const instrumentSerif = Instrument_Serif({
 // Renders the layout shared by all website pages.
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
+  const langCookie = (await cookies()).get('lang')?.value
+  const lang = ['en', 'es', 'fr', 'it'].includes(langCookie ?? '') ? langCookie : 'en'
 
   // Returns the page shell with header, content and footer.
   return (
-    <html className={cn(GeistSans.variable, GeistMono.variable, instrumentSerif.variable, oswald.variable)} lang="en" suppressHydrationWarning>
+    <html className={cn(GeistSans.variable, GeistMono.variable, instrumentSerif.variable, oswald.variable)} lang={lang} suppressHydrationWarning>
       <head>
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
